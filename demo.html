@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <title>jQuery tableSelect Plugin</title>
+    <!-- <script type="text/javascript" src="jquery-1.2.min.js"></script> -->
+    <script type="text/javascript" src="jquery-1.4.3.min.js"></script>
+    <script type="text/javascript" src="jquery.tableSelect.min.js"></script>
+    <!-- <script type="text/javascript" src="jquery.tableSelect.js"></script> -->
+    <style type="text/css">
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 200px;
+        }
+
+        th, td {
+            border-bottom: 1px solid black;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        th {
+            background-color: lightgrey;
+        }
+
+        tr.selected > * {
+            background-color: #FFFF00;
+        }
+    </style>
+    </head>
+
+    <body>
+        <h1>jQuery tableSelect Plugin &ndash; Row Selection made easy</h1>
+
+        <ol>
+            <li><strong>Current Version:</strong> 1.0.0</li>
+            <li><strong>Compressed Filesize:</strong> 3025 bytes</li>
+            <li><strong>License:</strong> MIT/GPL</li>
+        </ol>
+
+        <h2>Dependencies</h2>
+        <h3>Required</h3>
+        <ul>
+            <li><a href="http://jquery.com/">jQuery 1.2+ (<em>jQuery 1.4.3 recommended</em>)</a></li>
+        </ul>
+
+        <h2>tableSelectOne()</h2>        
+        <table id="tableSelectOne">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="radio" name="one" /></td>
+                    <td>Example 1</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="two" /></td>
+                    <td>Example 2</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="three" /></td>
+                    <td>Example 3</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="four" /></td>
+                    <td>Example 4</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="five" /></td>
+                    <td>Example 5</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var tableOne = $("#tableSelectOne").tableSelectOne();
+                $("#tableSelectOne input").each(function() { this.checked = null; });
+
+                $(document).bind('rowchange', function(event, table) {
+                    if(tableOne == table) {
+                        var row = table.lastActive();
+                        table.isSelected(row) ?
+                            $(row).find('input').attr('checked', 'checked') :
+                            $(row).find('input').removeAttr('checked');
+                    }
+                });
+            });
+        </script>
+
+        <h2>tableSelectMany()</h2>
+        <table id="tableSelectMany">
+            <thead>
+                <tr>
+                    <th><input id="tableManyCbAll" type="checkbox" name="all" /></th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" name="one" /></td>
+                    <td>Example 1</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="two" /></td>
+                    <td>Example 2</td>
+                </tr>
+                <tr class="three">
+                    <td><input type="checkbox" name="three" /></td>
+                    <td>Example 3</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="four" /></td>
+                    <td>Example 4</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="five" /></td>
+                    <td>Example 5</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var tableMany = $("#tableSelectMany").tableSelectMany();
+                $("#tableSelectMany input").each(function() { this.checked = null; });
+
+                // Select/Deselect all rows
+                $("input#tableManyCbAll").bind("click", function() {
+                    this.checked ? tableMany.selectAll() : tableMany.clearSelections();
+                });
+
+                // Do something once a row has changed
+                $(document).bind('rowchange', function(event, table) {
+                    if(tableMany == table) {
+                        var row = table.lastActive();
+                        table.isSelected(row) ?
+                            $(row).find('input').attr('checked', 'checked') :
+                            $(row).find('input').removeAttr('checked');
+
+                        table.allSelected() ?
+                            $("input#tableManyCbAll").attr('checked', 'checked') :
+                            $("input#tableManyCbAll").removeAttr('checked');
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
