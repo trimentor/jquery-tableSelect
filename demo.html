@@ -4,8 +4,8 @@
     <title>jQuery tableSelect Plugin</title>
     <!-- <script type="text/javascript" src="jquery-1.2.min.js"></script> -->
     <script type="text/javascript" src="jquery-1.4.3.min.js"></script>
-    <script type="text/javascript" src="jquery.tableSelect.min.js"></script>
-    <!-- <script type="text/javascript" src="jquery.tableSelect.js"></script> -->
+    <!-- <script type="text/javascript" src="jquery.tableSelect.min.js"></script> -->
+    <script type="text/javascript" src="jquery.tableSelect.js"></script>
     <style type="text/css">
         table {
             border: 1px solid black;
@@ -33,7 +33,7 @@
         <h1>jQuery tableSelect Plugin &ndash; Row Selection made easy</h1>
 
         <ol>
-            <li><strong>Current Version:</strong> 1.0.0</li>
+            <li><strong>Current Version:</strong> 1.1.0</li>
             <li><strong>License:</strong> MIT/GPL</li>
         </ol>
 
@@ -82,7 +82,7 @@
 
                 $(document).bind('rowchange', function(event, table) {
                     if(tableOne == table) {
-                        var row = table.lastActive();
+                        var row = table.getFocusedRow();
                         table.isSelected(row) ?
                             $(row).find('input').attr('checked', 'checked') :
                             $(row).find('input').removeAttr('checked');
@@ -136,7 +136,7 @@
                 // Do something once a row has changed
                 $(document).bind('rowchange', function(event, table) {
                     if(tableMany == table) {
-                        var row = table.lastActive();
+                        var row = table.getFocusedRow();
                         table.isSelected(row) ?
                             $(row).find('input').attr('checked', 'checked') :
                             $(row).find('input').removeAttr('checked');

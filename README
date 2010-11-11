@@ -1,1 +1,17 @@
-[jQuery tableSelect Plugin - Row Selection made easy
+== jQuery tableSelect Plugin - Row Selection made easy
+
+Allow selection of just one single row in a table's tbody section:
+$("#tableSelectOne").tableSelectOne();
+
+Allow selection of multiple rows in a table's tbody section:
+$("#tableSelectMany").tableSelectMany();
+
+It is possible to execute a function each time a row has been changed:
+$(document).bind('rowchange', function(event, table) {});
+
+Some useful methods:
+  table.allSelected()   // Are all rows selected?
+  table.getFocusedRow() // Get last active row
+  table.getSelections() // Get all selected rows
+  table.isSelected(row) // Is this row already selected?
+

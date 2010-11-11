@@ -1,5 +1,5 @@
 /*
- * jQuery tableSelect plugin 1.0.0
+ * jQuery tableSelect plugin 1.1.0
  *
  * Copyright (c) 2010 Kjel Delaey
  *
@@ -18,7 +18,7 @@
 
     $.extend($.fn, {
         tableSelectOne: function(options) {
-            var options   = $.extend({keepSelections: false}, options);
+            var options   = $.extend({multiSelect: false}, options);
             tableSelector = new $.tableSelector(options, this)
             return tableSelector;
         }
@@ -26,7 +26,7 @@
 
     $.extend($.fn, {
         tableSelectMany: function(options) {
-            var options   = $.extend({keepSelections: true}, options);
+            var options   = $.extend({multiSelect: true}, options);
             tableSelector = new $.tableSelector(options, this)
             return tableSelector;
         }
@@ -42,7 +42,7 @@
         defaults: {
             tableClass:     "tableselect",
             rowSelectClass: "selected",
-            keepSelections: false
+            multiSelect:    false
         },
 
         prototype: {
@@ -54,16 +54,27 @@
                 $(this.currentTable).addClass(this.options.tableClass);
             },
 
-            lastActive: function() {
+            allSelected: function() {
+                return (this.selections.length == this.rows.length);
+            },
+
+            getSelections: function() {
+                return this.selections;  
+            },
+
+            getFocusedRow: function() {
                 return this.rows[this.lastActiveRow];
             },
 
-            allSelected: function() {
-              return (this.selections.length == this.rows.length);
-            },
-
-            selectedRows: function() {
-              return this.selections;  
+            isSelected: function(row) {
+                var bool = false
+                for(var i=0; i<this.selections.length; i++) {
+                    if(this.selections[i] == row) {
+                        bool = true;
+                        break;
+                    }
+                }
+                return bool;
             },
 
             collectRows: function() {
@@ -84,33 +95,42 @@
             },
 
             handleMouseDown: function(event) {
-                var table    = this.parentThis;
-                var rowIndex = this.rowIndex-1;
-                if(table.isSelected(this) == false) {
-                    table.selectRow(rowIndex, table.options.keepSelections);
+                var table = this.parentThis;
+                if(table.options.multiSelect) {
+                    table.handleKeyDown(event, this);
                 }
                 else {
-                    table.deselectRow(rowIndex, table.options.keepSelections);
+                    table.handleSingleSelect(this);
                 }
             },
 
-            /*handleKeyDown: function(event) {
-                var table    = event.data.row.parentThis;
-                var rowIndex = event.data.row.rowIndex-1;
-
-                if(event.ctrlKey) {
-                    if(table.isSelected(event.data.row) == false) {
-                        table.selectRow(rowIndex, true);
+            handleKeyDown: function(event, row) {
+                var rowIndex = row.rowIndex-1;
+                if(event.shiftKey) {
+                    if(typeof(this.lastActiveRow) == "undefined") this.focusRow(rowIndex);
+                    this.lockedRow = this.lastActiveRow;
+                    if(event.ctrlKey) {
+                        this.selectRange(this.lastActiveRow, rowIndex, true);
                     }
                     else {
-                        table.deselectRow(rowIndex, true);
+                        this.selectRange(this.lockedRow, rowIndex, false);
+                        this.focusRow(this.lockedRow);
                     }
                 }
-
-                if(event.shiftKey) {
-                    table.selectRange(table.lastActiveRow, rowIndex, true);
+                else {
+                    this.handleSingleSelect(row);
                 }
-            },*/
+            },
+
+            handleSingleSelect: function(row) {
+                var rowIndex = row.rowIndex-1;
+                if(this.isSelected(row)) {
+                    this.deselectRow(rowIndex);
+                }
+                else {
+                    this.selectRow(rowIndex, this.options.multiSelect);
+                }
+            },
 
             selectRow: function(rowIndex, keepSelections) {
                 var row = this.rows[rowIndex];
@@ -136,17 +156,6 @@
                 }
             },
 
-            isSelected: function(row) {
-                var bool = false
-                for(var i=0; i<this.selections.length; i++) {
-                    if(this.selections[i] == row) {
-                        bool = true;
-                        break;
-                    }
-                }
-                return bool;
-            },
-
             focusRow: function(rowIndex) {
                 this.lastActiveRow = rowIndex;
             },
@@ -164,10 +173,10 @@
             },
 
             selectAll: function() {
-                if(this.options.keepSelections) {
+                if(this.options.multiSelect) {
                     this.clearSelections();
                     $(this.rows).each(function() {
-                        this.parentThis.selectRow(this.rowIndex-1, this.parentThis.options.keepSelections);
+                        this.parentThis.selectRow(this.rowIndex-1, true);
                     });
                 }
             },
