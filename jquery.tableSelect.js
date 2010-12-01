@@ -105,7 +105,7 @@
             },
 
             handleKeyDown: function(event, row) {
-                var rowIndex = row.rowIndex-1;
+                var rowIndex = row.sectionRowIndex;
                 if(event.shiftKey) {
                     if(typeof(this.lastActiveRow) == "undefined") this.focusRow(rowIndex);
                     this.lockedRow = this.lastActiveRow;
@@ -123,7 +123,7 @@
             },
 
             handleSingleSelect: function(row) {
-                var rowIndex = row.rowIndex-1;
+                var rowIndex = row.sectionRowIndex;
                 if(this.isSelected(row)) {
                     this.deselectRow(rowIndex);
                 }
@@ -176,14 +176,14 @@
                 if(this.options.multiSelect) {
                     this.clearSelections();
                     $(this.rows).each(function() {
-                        this.parentThis.selectRow(this.rowIndex-1, true);
+                        this.parentThis.selectRow(this.sectionRowIndex, true);
                     });
                 }
             },
 
             clearSelections: function() {
                 $(this.rows).each(function() {
-                    this.parentThis.deselectRow(this.rowIndex-1);
+                    this.parentThis.deselectRow(this.sectionRowIndex);
                 });
             },
 
