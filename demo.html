@@ -33,7 +33,7 @@
         <h1>jQuery tableSelect Plugin &ndash; Row Selection made easy</h1>
 
         <ol>
-            <li><strong>Current Version:</strong> 1.1.0</li>
+            <li><strong>Current Version:</strong> 1.2.0</li>
             <li><strong>License:</strong> MIT/GPL</li>
         </ol>
 
@@ -43,7 +43,7 @@
             <li><a href="http://jquery.com/">jQuery 1.2+ (<em>jQuery 1.4.3 recommended</em>)</a></li>
         </ul>
 
-        <h2>tableSelectOne()</h2>        
+        <h2>tableSelectOne()</h2>
         <table id="tableSelectOne">
             <thead>
                 <tr>
@@ -145,6 +145,76 @@
                             $("input#tableManyCbAll").attr('checked', 'checked') :
                             $("input#tableManyCbAll").removeAttr('checked');
                     }
+                });
+            });
+        </script>
+
+        <h3>Listeners</h3>
+        <ul>
+            <li><strong>beforerowselect</strong> fires before a row is selected</li>
+            <li><strong>afterrowselect</strong> fires after a row is selected</li>
+            <li><strong>beforerowdeselect</strong> fires before a row is deselected</li>
+            <li><strong>afterrowdeselect</strong> fires after a row is deselected</li>
+        </ul>
+
+        <table id="tableSelectListeners">
+            <thead>
+                <tr>
+                    <th><input id="tableSelectListenersCbAll" type="checkbox" name="all" /></th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" name="one" /></td>
+                    <td><a href="#tableSelectListeners">Example 1</a></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="two" /></td>
+                    <td><a href="#tableSelectListeners">Example 2</a></td>
+                </tr>
+                <tr class="three">
+                    <td><input type="checkbox" name="three" /></td>
+                    <td><a href="#tableSelectListeners">Example 3</a></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="four" /></td>
+                    <td><a href="#tableSelectListeners">Example 4</a></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="five" /></td>
+                    <td><a href="#tableSelectListeners">Example 5</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var tableMany = $("#tableSelectListeners").tableSelectMany({
+                    listeners : {
+                        beforerowselect   : function(event) {
+                            this.preventChange = (this.target === "a") ? true : false;
+                        },
+                        beforerowdeselect : function(event) {
+                            this.preventChange = (this.target === "a") ? true : false;
+                        },
+                        afterrowselect    : function(event) {
+                            if(this.parentThis.allSelected()) $("input#tableSelectListenersCbAll").attr('checked', 'checked');
+                            var toggle = $(this).find('input');
+                            if(toggle.not(":checked")) toggle.attr('checked', 'checked');
+                        },
+                        afterrowdeselect  : function(event) {
+                            if(!this.parentThis.allSelected()) $("input#tableSelectListenersCbAll").removeAttr('checked');
+                            var toggle = $(this).find('input');
+                            if(toggle.is(":checked")) toggle.removeAttr('checked');
+                        }
+                    }
+                });
+                $("#tableSelectListeners input").each(function() { this.checked = null; });
+
+                // Select/Deselect all rows
+                $("input#tableSelectListenersCbAll").bind("click", function() {
+                    this.checked ? tableMany.selectAll() : tableMany.clearSelections();
                 });
             });
         </script>

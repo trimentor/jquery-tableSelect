@@ -1,5 +1,5 @@
 /*
- * jQuery tableSelect plugin 1.1.0
+ * jQuery tableSelect plugin 1.2.0
  *
  * Copyright (c) 2010 Kjel Delaey
  *
@@ -48,6 +48,7 @@
         prototype: {
             init: function() {
                 this.selections = [];
+                this.listeners  = this.options.listeners || {};
                 this.collectRows();
                 this.initRowEvents();
 
@@ -59,7 +60,7 @@
             },
 
             getSelections: function() {
-                return this.selections;  
+                return this.selections;
             },
 
             getFocusedRow: function() {
@@ -91,21 +92,37 @@
                     $(this).bind('click', table.handleMouseDown);
                     $(this).bind('rowselect', table.rowSelectClass);
                     $(this).bind('rowdeselect', table.rowSelectClass);
+                    table.initListeners(table, this);
                 });
             },
+            
+            initListeners: function(table, row) {             
+                if(table.listeners) {
+                    var listeners = table.listeners;
+                    if(listeners.beforerowselect)   $(row).bind('beforerowselect',   listeners.beforerowselect);
+                    if(listeners.afterrowselect)    $(row).bind('afterrowselect',    listeners.afterrowselect);
+                    if(listeners.beforerowdeselect) $(row).bind('beforerowdeselect', listeners.beforerowdeselect);
+                    if(listeners.afterrowdeselect)  $(row).bind('afterrowdeselect',  listeners.afterrowdeselect);
+                }
+            },
 
-            handleMouseDown: function(event) {
+            handleMouseDown: function(event) {              
                 var table = this.parentThis;
+                table.storeEventTarget(event, this);
+                
                 if(table.options.multiSelect) {
                     table.handleKeyDown(event, this);
                 }
                 else {
                     table.handleSingleSelect(this);
                 }
+
+                table.resetEventTarget(this);
             },
 
             handleKeyDown: function(event, row) {
                 var rowIndex = row.sectionRowIndex;
+
                 if(event.shiftKey) {
                     if(typeof(this.lastActiveRow) == "undefined") this.focusRow(rowIndex);
                     this.lockedRow = this.lastActiveRow;
@@ -121,9 +138,19 @@
                     this.handleSingleSelect(row);
                 }
             },
+            
+            storeEventTarget: function(event, row) {
+                var target = event.target && event.target.nodeName;
+                row.target = target ? target.toLowerCase() : null;
+            },
+
+            resetEventTarget: function(row) {
+                row.target = undefined;
+            },
 
             handleSingleSelect: function(row) {
                 var rowIndex = row.sectionRowIndex;
+
                 if(this.isSelected(row)) {
                     this.deselectRow(rowIndex);
                 }
@@ -134,25 +161,35 @@
 
             selectRow: function(rowIndex, keepSelections) {
                 var row = this.rows[rowIndex];
+
                 if(keepSelections == false) this.clearSelections();
-                if(row && this.isSelected(row) == false) {
-                    this.selections.push(row);
-                    this.focusRow(rowIndex);
-                    $(row).trigger('rowselect');
-                    $(document).trigger('rowchange', this);
+                if(row && this.isSelected(row) == false && $(row).trigger('beforerowselect') !== false) {
+                    if(row.preventChange !== true) {
+                        this.selections.push(row);
+                        this.focusRow(rowIndex);
+                        $(row).trigger('rowselect');
+                        $(row).trigger('afterrowselect');
+                        $(document).trigger('rowchange', this);
+                    }
+                    row.preventChange = undefined;
                 }
             },
 
             deselectRow: function(rowIndex) {
                 var row = this.rows[rowIndex];
-                if(row && this.isSelected(row)) {
-                    var index = $.inArray(row, this.selections);
-                    if(-1 != index) {
-                        this.selections.splice(index, 1);
-                        this.focusRow(rowIndex);
-                        $(row).trigger('rowdeselect');
-                        $(document).trigger('rowchange', this);
+
+                if(row && this.isSelected(row) && $(row).trigger('beforerowdeselect') !== false) {
+                    if(row.preventChange !== true) {
+                        var index = $.inArray(row, this.selections);
+                        if(-1 != index) {
+                            this.selections.splice(index, 1);
+                            this.focusRow(rowIndex);
+                            $(row).trigger('rowdeselect');
+                            $(row).trigger('afterrowdeselect');
+                            $(document).trigger('rowchange', this);
+                        }
                     }
+                    row.preventChange = undefined;
                 }
             },
 
