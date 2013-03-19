@@ -1,0 +1,24 @@
+{
+  "name": "tableSelect",
+  "title": "jQuery tableSelect Plugin - Row Selection made easy",
+  "homepage": "https://github.com/trimentor/jquery-tableSelect",
+  "keywords": ["table", "row", "effects", "ui", "clickable", "select"],
+  "version": "1.2.0",
+  "author": {
+    "name": "trimentor",
+    "url": "https://github.com/trimentor"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trimentor/jquery-tableSelect.git"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/trimentor/jquery-tableSelect/master/LICENSE"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.2"
+  }
+}
