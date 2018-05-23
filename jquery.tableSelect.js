@@ -1,7 +1,7 @@
 /*!
  * jQuery tableSelect plugin 1.3.0
  *
- * Copyright (c) 2010, 2014 Kjel Delaey
+ * Copyright (c) 2018 Kjel Delaey
  * Released under the MIT license
  * https://raw.github.com/trimentor/jquery-tableSelect/master/LICENSE
 */
