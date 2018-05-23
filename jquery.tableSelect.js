@@ -109,7 +109,7 @@
             handleMouseDown: function (event) {
                 var table = this.parentThis;
                 table.storeEventTarget(event, this);
-                
+
                 if (table.options.multiSelect) {
                     table.handleKeyDown(event, this);
                 }
@@ -138,7 +138,7 @@
                     this.handleSingleSelect(row);
                 }
             },
-            
+
             storeEventTarget: function (event, row) {
                 var target = event.target && event.target.nodeName;
                 row.target = target ? target.toLowerCase() : null;
