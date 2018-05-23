@@ -223,14 +223,17 @@
             },
 
             selectRange: function(startIndex, endIndex, keepSelections) {
+                var i;
+
                 if(keepSelections === false) this.clearSelections();
+
                 if(startIndex <= endIndex) {
-                    for(var i=startIndex; i<=endIndex; i++) {
+                    for(i=startIndex; i<=endIndex; i++) {
                         this.selectRow(i, true);
                     }
                 }
                 else {
-                    for(var i=startIndex; i>=endIndex; i--) {
+                    for(i=startIndex; i>=endIndex; i--) {
                         this.selectRow(i, true);
                     }
                 }
