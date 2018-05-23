@@ -9,7 +9,7 @@
 (function($) {
     $.extend($.fn, {
         tableSelect: function(options) {
-            tableSelector = new $.tableSelector(options, this)
+            tableSelector = new $.tableSelector(options, this);
             return tableSelector;
         }
     });
@@ -17,7 +17,7 @@
     $.extend($.fn, {
         tableSelectOne: function(options) {
             var options   = $.extend({multiSelect: false}, options);
-            tableSelector = new $.tableSelector(options, this)
+            tableSelector = new $.tableSelector(options, this);
             return tableSelector;
         }
     });
@@ -25,7 +25,7 @@
     $.extend($.fn, {
         tableSelectMany: function(options) {
             var options   = $.extend({multiSelect: true}, options);
-            tableSelector = new $.tableSelector(options, this)
+            tableSelector = new $.tableSelector(options, this);
             return tableSelector;
         }
     });
@@ -66,7 +66,7 @@
             },
 
             isSelected: function(row) {
-                var bool = false
+                var bool = false;
                 for(var i=0; i<this.selections.length; i++) {
                     if(this.selections[i] == row) {
                         bool = true;
