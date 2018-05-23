@@ -67,7 +67,9 @@
 
             isSelected: function (row) {
                 var bool = false;
-                for (var i=0; i<this.selections.length; i++) {
+                var i = 0;
+
+                for (i; i < this.selections.length; i++) {
                     if(this.selections[i] == row) {
                         bool = true;
                         break;
@@ -228,12 +230,12 @@
                 if (keepSelections === false) this.clearSelections();
 
                 if (startIndex <= endIndex) {
-                    for (i=startIndex; i<=endIndex; i++) {
+                    for (i = startIndex; i <= endIndex; i++) {
                         this.selectRow(i, true);
                     }
                 }
                 else {
-                    for (i=startIndex; i>=endIndex; i--) {
+                    for (i = startIndex; i >= endIndex; i--) {
                         this.selectRow(i, true);
                     }
                 }
