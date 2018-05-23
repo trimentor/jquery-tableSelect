@@ -54,7 +54,17 @@
             },
 
             allSelected: function () {
-                return (this.selections.length == this.rows.length);
+                return (this.selections.length === (this.rows.length - this.getDisabled()));
+            },
+
+            getDisabled: function () {
+                var count = 0;
+
+                $(this.rows).each(function (value, row) {
+                    if (this.parentThis.isDisabled(row)) count++;
+                });
+
+                return count;
             },
 
             getSelections: function () {
@@ -84,6 +94,13 @@
                 $(this.rows).each(function () {
                     this.parentThis = table;
                 });
+            },
+
+            isDisabled: function (row) {
+              var tr = $(row).children()[0];
+              var cb = $(tr).children()[0];
+
+              return (cb.disabled);
             },
 
             initRowEvents: function () {
@@ -164,7 +181,7 @@
 
                 if (keepSelections === false) this.clearSelections();
                 if (row && this.isSelected(row) === false && $(row).trigger("beforerowselect") !== false) {
-                    if (row.preventChange !== true) {
+                    if (row.preventChange !== true && (this.isDisabled(row) !== true)) {
                         this.selections.push(row);
                         this.focusRow(rowIndex);
                         $(row).trigger("rowselect");
