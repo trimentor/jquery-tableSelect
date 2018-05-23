@@ -1,5 +1,5 @@
 /*!
- * jQuery tableSelect plugin 1.3.0
+ * jQuery tableSelect plugin 1.4.0
  *
  * Copyright (c) 2018 Kjel Delaey
  * Released under the MIT license
