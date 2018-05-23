@@ -160,8 +160,8 @@
             selectRow: function(rowIndex, keepSelections) {
                 var row = this.rows[rowIndex];
 
-                if(keepSelections == false) this.clearSelections();
-                if(row && this.isSelected(row) == false && $(row).trigger('beforerowselect') !== false) {
+                if(keepSelections === false) this.clearSelections();
+                if(row && this.isSelected(row) === false && $(row).trigger('beforerowselect') !== false) {
                     if(row.preventChange !== true) {
                         this.selections.push(row);
                         this.focusRow(rowIndex);
@@ -223,7 +223,7 @@
             },
 
             selectRange: function(startIndex, endIndex, keepSelections) {
-                if(keepSelections == false) this.clearSelections();
+                if(keepSelections === false) this.clearSelections();
                 if(startIndex <= endIndex) {
                     for(var i=startIndex; i<=endIndex; i++) {
                         this.selectRow(i, true);
