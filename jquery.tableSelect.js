@@ -16,16 +16,16 @@
 
     $.extend($.fn, {
         tableSelectOne: function(options) {
-            var options   = $.extend({multiSelect: false}, options);
-            tableSelector = new $.tableSelector(options, this);
+            var newOptions = $.extend({multiSelect: false}, options);
+            tableSelector = new $.tableSelector(newOptions, this);
             return tableSelector;
         }
     });
 
     $.extend($.fn, {
         tableSelectMany: function(options) {
-            var options   = $.extend({multiSelect: true}, options);
-            tableSelector = new $.tableSelector(options, this);
+            var newOptions = $.extend({multiSelect: true}, options);
+            tableSelector = new $.tableSelector(newOptions, this);
             return tableSelector;
         }
     });
