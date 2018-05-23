@@ -87,9 +87,9 @@
             initRowEvents: function () {
                 var table = this;
                 $(this.rows).each(function () {
-                    $(this).bind('click', table.handleMouseDown);
-                    $(this).bind('rowselect', table.rowSelectClass);
-                    $(this).bind('rowdeselect', table.rowSelectClass);
+                    $(this).bind("click", table.handleMouseDown);
+                    $(this).bind("rowselect", table.rowSelectClass);
+                    $(this).bind("rowdeselect", table.rowSelectClass);
                     table.initListeners(table, this);
                 });
             },
@@ -97,10 +97,10 @@
             initListeners: function (table, row) {
                 if(table.listeners) {
                     var listeners = table.listeners;
-                    if(listeners.beforerowselect)   $(row).bind('beforerowselect',   listeners.beforerowselect);
-                    if(listeners.afterrowselect)    $(row).bind('afterrowselect',    listeners.afterrowselect);
-                    if(listeners.beforerowdeselect) $(row).bind('beforerowdeselect', listeners.beforerowdeselect);
-                    if(listeners.afterrowdeselect)  $(row).bind('afterrowdeselect',  listeners.afterrowdeselect);
+                    if(listeners.beforerowselect)   $(row).bind("beforerowselect",   listeners.beforerowselect);
+                    if(listeners.afterrowselect)    $(row).bind("afterrowselect",    listeners.afterrowselect);
+                    if(listeners.beforerowdeselect) $(row).bind("beforerowdeselect", listeners.beforerowdeselect);
+                    if(listeners.afterrowdeselect)  $(row).bind("afterrowdeselect",  listeners.afterrowdeselect);
                 }
             },
 
@@ -161,7 +161,7 @@
                 var row = this.rows[rowIndex];
 
                 if(keepSelections === false) this.clearSelections();
-                if(row && this.isSelected(row) === false && $(row).trigger('beforerowselect') !== false) {
+                if(row && this.isSelected(row) === false && $(row).trigger("beforerowselect") !== false) {
                     if(row.preventChange !== true) {
                         this.selections.push(row);
                         this.focusRow(rowIndex);
