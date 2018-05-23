@@ -6,16 +6,16 @@
  * https://raw.github.com/trimentor/jquery-tableSelect/master/LICENSE
 */
 
-(function($) {
+(function ($) {
     $.extend($.fn, {
-        tableSelect: function(options) {
+        tableSelect: function (options) {
             tableSelector = new $.tableSelector(options, this);
             return tableSelector;
         }
     });
 
     $.extend($.fn, {
-        tableSelectOne: function(options) {
+        tableSelectOne: function (options) {
             var newOptions = $.extend({multiSelect: false}, options);
             tableSelector = new $.tableSelector(newOptions, this);
             return tableSelector;
@@ -23,14 +23,14 @@
     });
 
     $.extend($.fn, {
-        tableSelectMany: function(options) {
+        tableSelectMany: function (options) {
             var newOptions = $.extend({multiSelect: true}, options);
             tableSelector = new $.tableSelector(newOptions, this);
             return tableSelector;
         }
     });
 
-    $.tableSelector = function(options, table) {
+    $.tableSelector = function (options, table) {
         this.options      = $.extend({}, $.tableSelector.defaults, options);
         this.currentTable = table;
         this.init();
@@ -44,7 +44,7 @@
         },
 
         prototype: {
-            init: function() {
+            init: function () {
                 this.selections = [];
                 this.listeners  = this.options.listeners || {};
                 this.collectRows();
@@ -53,19 +53,19 @@
                 $(this.currentTable).addClass(this.options.tableClass);
             },
 
-            allSelected: function() {
+            allSelected: function () {
                 return (this.selections.length == this.rows.length);
             },
 
-            getSelections: function() {
+            getSelections: function () {
                 return this.selections;
             },
 
-            getFocusedRow: function() {
+            getFocusedRow: function () {
                 return this.rows[this.lastActiveRow];
             },
 
-            isSelected: function(row) {
+            isSelected: function (row) {
                 var bool = false;
                 for(var i=0; i<this.selections.length; i++) {
                     if(this.selections[i] == row) {
@@ -76,17 +76,17 @@
                 return bool;
             },
 
-            collectRows: function() {
+            collectRows: function () {
                 var table = this;
                 this.rows = this.currentTable[0].tBodies[0].rows;
-                $(this.rows).each(function() {
+                $(this.rows).each(function () {
                     this.parentThis = table;
                 });
             },
 
-            initRowEvents: function() {
+            initRowEvents: function () {
                 var table = this;
-                $(this.rows).each(function() {
+                $(this.rows).each(function () {
                     $(this).bind('click', table.handleMouseDown);
                     $(this).bind('rowselect', table.rowSelectClass);
                     $(this).bind('rowdeselect', table.rowSelectClass);
@@ -94,7 +94,7 @@
                 });
             },
             
-            initListeners: function(table, row) {             
+            initListeners: function (table, row) {
                 if(table.listeners) {
                     var listeners = table.listeners;
                     if(listeners.beforerowselect)   $(row).bind('beforerowselect',   listeners.beforerowselect);
@@ -104,7 +104,7 @@
                 }
             },
 
-            handleMouseDown: function(event) {              
+            handleMouseDown: function (event) {
                 var table = this.parentThis;
                 table.storeEventTarget(event, this);
                 
@@ -118,7 +118,7 @@
                 table.resetEventTarget(this);
             },
 
-            handleKeyDown: function(event, row) {
+            handleKeyDown: function (event, row) {
                 var rowIndex = row.sectionRowIndex;
 
                 if(event.shiftKey) {
@@ -137,16 +137,16 @@
                 }
             },
             
-            storeEventTarget: function(event, row) {
+            storeEventTarget: function (event, row) {
                 var target = event.target && event.target.nodeName;
                 row.target = target ? target.toLowerCase() : null;
             },
 
-            resetEventTarget: function(row) {
+            resetEventTarget: function (row) {
                 row.target = undefined;
             },
 
-            handleSingleSelect: function(row) {
+            handleSingleSelect: function (row) {
                 var rowIndex = row.sectionRowIndex;
 
                 if(this.isSelected(row)) {
@@ -157,7 +157,7 @@
                 }
             },
 
-            selectRow: function(rowIndex, keepSelections) {
+            selectRow: function (rowIndex, keepSelections) {
                 var row = this.rows[rowIndex];
 
                 if(keepSelections === false) this.clearSelections();
@@ -173,7 +173,7 @@
                 }
             },
 
-            deselectRow: function(rowIndex) {
+            deselectRow: function (rowIndex) {
                 var row = this.rows[rowIndex];
 
                 if(row && this.isSelected(row) && $(row).trigger('beforerowdeselect') !== false) {
@@ -191,11 +191,11 @@
                 }
             },
 
-            focusRow: function(rowIndex) {
+            focusRow: function (rowIndex) {
                 this.lastActiveRow = rowIndex;
             },
 
-            rowSelectClass: function(event) {
+            rowSelectClass: function (event) {
                 switch(event.type) {
                     case 'rowselect':
                         $(this).addClass(this.parentThis.options.rowSelectClass);
@@ -207,22 +207,22 @@
                 }
             },
 
-            selectAll: function() {
+            selectAll: function () {
                 if(this.options.multiSelect) {
                     this.clearSelections();
-                    $(this.rows).each(function() {
+                    $(this.rows).each(function () {
                         this.parentThis.selectRow(this.sectionRowIndex, true);
                     });
                 }
             },
 
-            clearSelections: function() {
-                $(this.rows).each(function() {
+            clearSelections: function () {
+                $(this.rows).each(function () {
                     this.parentThis.deselectRow(this.sectionRowIndex);
                 });
             },
 
-            selectRange: function(startIndex, endIndex, keepSelections) {
+            selectRange: function (startIndex, endIndex, keepSelections) {
                 var i;
 
                 if(keepSelections === false) this.clearSelections();
