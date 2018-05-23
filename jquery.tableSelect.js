@@ -167,9 +167,9 @@
                     if (row.preventChange !== true) {
                         this.selections.push(row);
                         this.focusRow(rowIndex);
-                        $(row).trigger('rowselect');
-                        $(row).trigger('afterrowselect');
-                        $(document).trigger('rowchange', this);
+                        $(row).trigger("rowselect");
+                        $(row).trigger("afterrowselect");
+                        $(document).trigger("rowchange", this);
                     }
                     row.preventChange = undefined;
                 }
@@ -178,15 +178,15 @@
             deselectRow: function (rowIndex) {
                 var row = this.rows[rowIndex];
 
-                if (row && this.isSelected(row) && $(row).trigger('beforerowdeselect') !== false) {
+                if (row && this.isSelected(row) && $(row).trigger("beforerowdeselect") !== false) {
                     if (row.preventChange !== true) {
                         var index = $.inArray(row, this.selections);
                         if (-1 != index) {
                             this.selections.splice(index, 1);
                             this.focusRow(rowIndex);
-                            $(row).trigger('rowdeselect');
-                            $(row).trigger('afterrowdeselect');
-                            $(document).trigger('rowchange', this);
+                            $(row).trigger("rowdeselect");
+                            $(row).trigger("afterrowdeselect");
+                            $(document).trigger("rowchange", this);
                         }
                     }
                     row.preventChange = undefined;
@@ -199,10 +199,10 @@
 
             rowSelectClass: function (event) {
                 switch(event.type) {
-                    case 'rowselect':
+                    case "rowselect":
                         $(this).addClass(this.parentThis.options.rowSelectClass);
                         break;
-                    case 'rowdeselect':
+                    case "rowdeselect":
                         $(this).removeClass(this.parentThis.options.rowSelectClass);
                         break;
                     default: break;
