@@ -93,14 +93,14 @@
                     table.initListeners(table, this);
                 });
             },
-            
+
             initListeners: function (table, row) {
-                if(table.listeners) {
+                if (table.listeners) {
                     var listeners = table.listeners;
-                    if(listeners.beforerowselect)   $(row).bind("beforerowselect",   listeners.beforerowselect);
-                    if(listeners.afterrowselect)    $(row).bind("afterrowselect",    listeners.afterrowselect);
-                    if(listeners.beforerowdeselect) $(row).bind("beforerowdeselect", listeners.beforerowdeselect);
-                    if(listeners.afterrowdeselect)  $(row).bind("afterrowdeselect",  listeners.afterrowdeselect);
+                    if (listeners.beforerowselect)   $(row).bind("beforerowselect",   listeners.beforerowselect);
+                    if (listeners.afterrowselect)    $(row).bind("afterrowselect",    listeners.afterrowselect);
+                    if (listeners.beforerowdeselect) $(row).bind("beforerowdeselect", listeners.beforerowdeselect);
+                    if (listeners.afterrowdeselect)  $(row).bind("afterrowdeselect",  listeners.afterrowdeselect);
                 }
             },
 
@@ -108,7 +108,7 @@
                 var table = this.parentThis;
                 table.storeEventTarget(event, this);
                 
-                if(table.options.multiSelect) {
+                if (table.options.multiSelect) {
                     table.handleKeyDown(event, this);
                 }
                 else {
@@ -121,10 +121,10 @@
             handleKeyDown: function (event, row) {
                 var rowIndex = row.sectionRowIndex;
 
-                if(event.shiftKey) {
+                if (event.shiftKey) {
                     if(typeof(this.lastActiveRow) == "undefined") this.focusRow(rowIndex);
                     this.lockedRow = this.lastActiveRow;
-                    if(event.ctrlKey) {
+                    if (event.ctrlKey) {
                         this.selectRange(this.lastActiveRow, rowIndex, true);
                     }
                     else {
@@ -149,7 +149,7 @@
             handleSingleSelect: function (row) {
                 var rowIndex = row.sectionRowIndex;
 
-                if(this.isSelected(row)) {
+                if (this.isSelected(row)) {
                     this.deselectRow(rowIndex);
                 }
                 else {
@@ -160,9 +160,9 @@
             selectRow: function (rowIndex, keepSelections) {
                 var row = this.rows[rowIndex];
 
-                if(keepSelections === false) this.clearSelections();
-                if(row && this.isSelected(row) === false && $(row).trigger("beforerowselect") !== false) {
-                    if(row.preventChange !== true) {
+                if (keepSelections === false) this.clearSelections();
+                if (row && this.isSelected(row) === false && $(row).trigger("beforerowselect") !== false) {
+                    if (row.preventChange !== true) {
                         this.selections.push(row);
                         this.focusRow(rowIndex);
                         $(row).trigger('rowselect');
@@ -176,10 +176,10 @@
             deselectRow: function (rowIndex) {
                 var row = this.rows[rowIndex];
 
-                if(row && this.isSelected(row) && $(row).trigger('beforerowdeselect') !== false) {
-                    if(row.preventChange !== true) {
+                if (row && this.isSelected(row) && $(row).trigger('beforerowdeselect') !== false) {
+                    if (row.preventChange !== true) {
                         var index = $.inArray(row, this.selections);
-                        if(-1 != index) {
+                        if (-1 != index) {
                             this.selections.splice(index, 1);
                             this.focusRow(rowIndex);
                             $(row).trigger('rowdeselect');
@@ -208,7 +208,7 @@
             },
 
             selectAll: function () {
-                if(this.options.multiSelect) {
+                if (this.options.multiSelect) {
                     this.clearSelections();
                     $(this.rows).each(function () {
                         this.parentThis.selectRow(this.sectionRowIndex, true);
@@ -225,9 +225,9 @@
             selectRange: function (startIndex, endIndex, keepSelections) {
                 var i;
 
-                if(keepSelections === false) this.clearSelections();
+                if (keepSelections === false) this.clearSelections();
 
-                if(startIndex <= endIndex) {
+                if (startIndex <= endIndex) {
                     for (i=startIndex; i<=endIndex; i++) {
                         this.selectRow(i, true);
                     }
