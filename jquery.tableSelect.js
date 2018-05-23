@@ -9,7 +9,7 @@
 (function ($) {
     $.extend($.fn, {
         tableSelect: function (options) {
-            tableSelector = new $.tableSelector(options, this);
+            var tableSelector = new $.tableSelector(options, this);
             return tableSelector;
         }
     });
@@ -17,7 +17,7 @@
     $.extend($.fn, {
         tableSelectOne: function (options) {
             var newOptions = $.extend({multiSelect: false}, options);
-            tableSelector = new $.tableSelector(newOptions, this);
+            var tableSelector = new $.tableSelector(newOptions, this);
             return tableSelector;
         }
     });
@@ -25,7 +25,7 @@
     $.extend($.fn, {
         tableSelectMany: function (options) {
             var newOptions = $.extend({multiSelect: true}, options);
-            tableSelector = new $.tableSelector(newOptions, this);
+            var tableSelector = new $.tableSelector(newOptions, this);
             return tableSelector;
         }
     });
